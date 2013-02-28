@@ -71,4 +71,18 @@ public class TConnection {
 		return TNodeOne + "-"+this.weight
 				+"-"+TNodeTwo;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		boolean areEqual = true;
+		if(o.getClass().equals(this.getClass())) {
+			TConnection c = (TConnection)o;
+			if(!c.getTNodeOne().equals(this.getTNodeOne()) ||
+					!c.getTNodeTwo().equals(this.getTNodeTwo()) || 
+							c.getWeight() != this.weight)
+				areEqual = false;
+		}else 
+			areEqual = false;
+		return areEqual;
+	}
 }

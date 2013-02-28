@@ -1,5 +1,6 @@
 package mst;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TTree {
@@ -7,6 +8,7 @@ public class TTree {
 	private List<TNode> nodes;
 
 	public TTree() {
+		nodes = new ArrayList<TNode>();
 	}
 
 	public TTree(List<TNode> input) {
@@ -27,8 +29,11 @@ public class TTree {
 	}
 
 	public void addNodes(List<TNode> toAdd) {
-		if (toAdd != null)
-			nodes.addAll(toAdd);
+		if (toAdd != null) {
+			for(TNode n : toAdd)
+				if(!hasNode(n))
+					nodes.add(n);
+		}
 	}
 
 	public boolean hasNode(TNode in) {
@@ -48,10 +53,15 @@ public class TTree {
 		String ret = "";
 		if (nodes != null && nodes.size() > 0) {
 			StringBuilder sb = new StringBuilder();
+			List<TConnection> printed = new ArrayList<TConnection>();
 			for (TNode n : nodes) {
 				for (TConnection c : n.getConnections()) {
-					sb.append(c + "\n");
+					if(!printed.contains(c))
+						printed.add(c);
 				}
+			}
+			for(TConnection c : printed) {
+				sb.append(c + "\n");
 			}
 			ret = sb.toString();
 		} else

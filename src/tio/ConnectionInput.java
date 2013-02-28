@@ -5,7 +5,7 @@ import mst.TNode;
 
 public class ConnectionInput {
 
-	private final static String CONNECTION_PATTERN = "[A-Za-z]+\\d+-[A-Za-z]+";
+	private final static String CONNECTION_PATTERN = "[A-Za-z]+-\\d+-[A-Za-z]+";
 	
 	public static TConnection getConnectionFromString(String input) {
 		TConnection connection = null;
@@ -15,7 +15,6 @@ public class ConnectionInput {
 			if(parts != null && parts.length == 3) {
 				
 				TNode one = new TNode(parts[0]);
-				one.addConnection(connection);
 				connection.setTNodeOne(one);
 				
 				try {
@@ -27,9 +26,10 @@ public class ConnectionInput {
 				}
 				
 				TNode two = new TNode(parts[2]);
-				two.addConnection(connection);
 				connection.setTNodeTwo(two);
 				
+				one.addConnection(connection);
+				two.addConnection(connection);
 			}
 		}
 		return connection;

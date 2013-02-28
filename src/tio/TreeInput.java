@@ -18,7 +18,7 @@ public class TreeInput {
 		
 		Scanner scan = new Scanner(System.in);
 		
-		String input = null;
+		String input = "" ;
 		while(!input.equalsIgnoreCase("stop")) {
 			input = scan.nextLine();
 			TConnection connect = ConnectionInput.getConnectionFromString(input);

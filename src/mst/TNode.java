@@ -1,5 +1,6 @@
 package mst;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TNode {
@@ -7,20 +8,22 @@ public class TNode {
 	private String title;
 	private List<TConnection> connections;
 	
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
 
 	public TNode(String title) {
 		this.title = title;
+		connections = new ArrayList<TConnection>();
 	}
 
 	public List<TConnection> getConnections() {
 		return connections;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public void setConnections(List<TConnection> connections) {
