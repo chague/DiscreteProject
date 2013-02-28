@@ -31,8 +31,10 @@ public class TTree {
 	public void removeNode(TNode toRemove) {
 		if(toRemove != null) 
 			for(TNode n : nodes)
-				if(n.equals(toRemove))
+				if(n.equals(toRemove)) {
 					nodes.remove(n);
+					return;
+				}
 	}
 
 	public void addNodes(List<TNode> toAdd) {

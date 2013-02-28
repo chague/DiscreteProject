@@ -38,7 +38,7 @@ public class PrimSolution {
 	private TTree buildSolution(TTree solution) {
 		if(this.tree.getNodes().size() > 0) {
 			
-			TConnection lowest = new TConnection(null, null, Integer.MAX_VALUE);
+			TConnection lowest = solution.getNodes().get(0).getConnections().get(0);
 			for(TNode n : solution.getNodes())
 				for(TConnection c : n.getConnections())
 					if(solution.hasNode(c.getTNodeOne()) && tree.hasNode(c.getTNodeTwo()) && c.getWeight() < lowest.getWeight())
