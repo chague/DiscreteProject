@@ -31,8 +31,17 @@ public class TNode {
 	}
 	
 	public void addConnection(TConnection t) {
-		if (t != null)
-			connections.add(t);
+		if (t != null) {
+			if(connections.size() > 0) {
+				for(TConnection c : connections) {
+					if(!c.equals(t)) {
+						connections.add(t);
+					}
+				}
+			}else
+				connections.add(t);
+		}
+							
 	}
 
 	@Override

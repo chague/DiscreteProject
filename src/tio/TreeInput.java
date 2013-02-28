@@ -26,6 +26,8 @@ public class TreeInput {
 			TConnection connect = ConnectionInput
 					.getConnectionFromString(input);
 			if (connect != null) {
+				connect.getNodes().get(0).addConnection(connect);
+				connect.getNodes().get(1).addConnection(connect);
 				tree.addNodes(connect.getNodes());
 			} else if(!input.equalsIgnoreCase("stop"))
 				System.out.println("Please enter a valid connection");
