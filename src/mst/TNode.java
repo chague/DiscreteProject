@@ -32,7 +32,10 @@ public class TNode {
 			connections.add(t);
 	}
 
-
+	@Override
+	public String toString() {
+		return this.getTitle();
+	}
 	public boolean equals(TNode o) {
 		return o.getTitle().equals(this.title);
 	}

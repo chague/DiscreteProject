@@ -1,9 +1,14 @@
 package mst;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TConnection {
 
 	private int weight;
 	private TNode TNodeOne, TNodeTwo;
+	
+	public TConnection() {}
 	
 	public TConnection(TNode one, TNode two, int weight) {
 		this.TNodeOne = one;
@@ -45,6 +50,13 @@ public class TConnection {
 		return ret;
 	}
 	
+	public List<TNode> getNodes() {
+		List<TNode> n = new ArrayList<TNode>();
+		n.add(TNodeOne);
+		n.add(TNodeTwo);
+		return n;
+	}
+	
 	public TNode isMe(TNode in) {
 		TNode ret = null;
 		if(TNodeOne.equals(in))
@@ -52,5 +64,11 @@ public class TConnection {
 		else
 			ret = TNodeTwo;
 		return ret;
+	}
+	
+	@Override 
+	public String toString() {
+		return TNodeOne + "-"+this.weight
+				+"-"+TNodeTwo;
 	}
 }
