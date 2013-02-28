@@ -27,6 +27,13 @@ public class TTree {
 		if (toAdd != null)
 			nodes.add(toAdd);
 	}
+	
+	public void removeNode(TNode toRemove) {
+		if(toRemove != null) 
+			for(TNode n : nodes)
+				if(n.equals(toRemove))
+					nodes.remove(n);
+	}
 
 	public void addNodes(List<TNode> toAdd) {
 		if (toAdd != null) {

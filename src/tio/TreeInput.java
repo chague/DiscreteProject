@@ -27,7 +27,7 @@ public class TreeInput {
 					.getConnectionFromString(input);
 			if (connect != null) {
 				tree.addNodes(connect.getNodes());
-			} else
+			} else if(!input.equalsIgnoreCase("stop"))
 				System.out.println("Please enter a valid connection");
 
 		}

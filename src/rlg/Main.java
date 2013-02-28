@@ -11,7 +11,8 @@ public class Main {
 //		TTree input = TreeInput.getTreeFromFile();
 		System.out.println(input);
 		TTree output = new PrimSolution(input).solveTree();
+		System.out.println("Got to end");
 		System.out.println(output);
-				}
+	}
 	
 }

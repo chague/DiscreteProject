@@ -30,41 +30,29 @@ public class PrimSolution {
 		TNode first = tree.getNodes().get(0);
 		solution.addNode(first);
 
-		List<TNode> vertices = new ArrayList<TNode>();
-		for (TConnection tc : first.getConnections()) {
-			vertices.add(tc.notMe(first));
-		}
+		tree.removeNode(first);
 
-		solution.addNodes(vertices);
-
-		return buildSolution(solution, vertices);
+		return buildSolution(solution);
 	}
 
-	public TTree buildSolution(TTree solution, List<TNode> vertices) {
-
-		TConnection lowestConnection = new TConnection(null, null, 0);
-		TNode lowestNode = null;
-
-		for (TNode n : vertices) {
-			for (TConnection c : n.getConnections()) {
-				if (c.getWeight() <= lowestConnection.getWeight()) {
-					lowestConnection = c;
-					lowestNode = n;
-				}
-			}
-		}
-
-		solution.addNode(lowestNode);
-		if (lowestNode.getConnections() != null) {
-			for (TConnection n : lowestNode.getConnections()) {
-				vertices.add(n.notMe(lowestNode));
-			}
-		}
-
-		if (solution.getNodes().size() == tree.getNodes().size())
+	private TTree buildSolution(TTree solution) {
+		if(this.tree.getNodes().size() > 0) {
+			
+			TConnection lowest = new TConnection(null, null, Integer.MAX_VALUE);
+			for(TNode n : solution.getNodes())
+				for(TConnection c : n.getConnections())
+					if(solution.hasNode(c.getTNodeOne()) && tree.hasNode(c.getTNodeTwo()) && c.getWeight() < lowest.getWeight())
+						lowest = c;
+			
+			solution.addNode(lowest.getTNodeTwo());
+			tree.removeNode(lowest.getTNodeTwo());
+			
+			return buildSolution(solution);
+			
+		}else 
 			return solution;
-		else
-			return buildSolution(solution, vertices);
+		
 	}
-
+	
+	
 }
