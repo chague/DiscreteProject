@@ -35,5 +35,22 @@ public class TConnection {
 		TNodeTwo = tNodeTwo;
 	}
 	
+	//returns node that does not call this method
+	public TNode notMe(TNode in) {
+		TNode ret = null;
+		if(TNodeOne.equals(in)) 
+			ret = TNodeTwo;
+		else
+			ret = TNodeOne;
+		return ret;
+	}
 	
+	public TNode isMe(TNode in) {
+		TNode ret = null;
+		if(TNodeOne.equals(in))
+			ret = TNodeOne;
+		else
+			ret = TNodeTwo;
+		return ret;
+	}
 }

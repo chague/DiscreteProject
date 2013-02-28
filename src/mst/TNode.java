@@ -31,5 +31,10 @@ public class TNode {
 		if (t != null)
 			connections.add(t);
 	}
+
+
+	public boolean equals(TNode o) {
+		return o.getTitle().equals(this.title);
+	}
 	
 }
