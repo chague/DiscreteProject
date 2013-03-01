@@ -1,38 +1,47 @@
 package tio;
 
-import mst.TConnection;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import mst.TNode;
 
 public class ConnectionInput {
 
 	private final static String CONNECTION_PATTERN = "[A-Za-z]+-\\d+-[A-Za-z]+";
 	
-	public static TConnection getConnectionFromString(String input) {
-		TConnection connection = null;
+	public static List<TNode> getConnectionFromString(String input) {
+		List<TNode> nodes = new ArrayList<TNode>();
 		if(input.matches(CONNECTION_PATTERN)) {
 			String[] parts = input.split("-");
-			connection = new TConnection();
 			if(parts != null && parts.length == 3) {
 				
 				TNode one = new TNode(parts[0]);
-				connection.setTNodeOne(one);
+				int weight = 0;
 				
 				try {
-					int weight = Integer.parseInt(parts[1]);
-					connection.setWeight(weight);
+					weight = Integer.parseInt(parts[1]);
 				}catch (NumberFormatException e) {
 					System.out.println(e.getMessage());
-					connection = null;
 				}
 				
 				TNode two = new TNode(parts[2]);
-				connection.setTNodeTwo(two);
 				
-				one.addConnection(connection);
-				two.addConnection(connection);
+				Map<String, Integer> mapOne = new HashMap<String, Integer>();
+				mapOne.put(two.getTitle(), weight);
+				
+				Map<String, Integer> mapTwo = new HashMap<String, Integer>();
+				mapTwo.put(one.getTitle(), weight);
+				
+				one.addConnection(mapOne);
+				two.addConnection(mapTwo);
+				
+				nodes.add(one);
+				nodes.add(two);
 			}
 		}
-		return connection;
+		return nodes;
 	}
 	
 }

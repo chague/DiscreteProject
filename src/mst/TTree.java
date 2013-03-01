@@ -2,6 +2,7 @@ package mst;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TTree {
 
@@ -27,11 +28,11 @@ public class TTree {
 		if (toAdd != null)
 			nodes.add(toAdd);
 	}
-	
+
 	public void removeNode(TNode toRemove) {
-		if(toRemove != null) 
-			for(TNode n : nodes)
-				if(n.equals(toRemove)) {
+		if (toRemove != null)
+			for (TNode n : nodes)
+				if (n.equals(toRemove)) {
 					nodes.remove(n);
 					return;
 				}
@@ -39,9 +40,18 @@ public class TTree {
 
 	public void addNodes(List<TNode> toAdd) {
 		if (toAdd != null) {
-			for(TNode n : toAdd)
-				if(!hasNode(n))
+			for (TNode n : toAdd) {
+				if (!hasNode(n)) {
 					nodes.add(n);
+				} else {
+					for (TNode node : nodes) {
+						if (node.equals(n)) {
+							node.addConnection(n.getConnections());
+						}
+					}
+				}
+			}
+
 		}
 	}
 
@@ -57,24 +67,45 @@ public class TTree {
 
 	}
 
+	public boolean hasNode(String in) {
+		boolean hasNode = false;
+		for (TNode node : this.nodes) {
+			if (node.getTitle().equalsIgnoreCase(in))
+				hasNode = true;
+		}
+		return hasNode;
+	}
+
+	private String reverseString(String input) {
+		StringBuilder ret = new StringBuilder();
+		for (int i = input.length() - 1; i >= 0; i--) {
+			ret.append(input.charAt(i));
+		}
+		return ret.toString();
+	}
+
 	@Override
 	public String toString() {
-		String ret = "";
+		StringBuilder ret = new StringBuilder();
+		List<String> toPrint = new ArrayList<String>();
 		if (nodes != null && nodes.size() > 0) {
-			StringBuilder sb = new StringBuilder();
-			List<TConnection> printed = new ArrayList<TConnection>();
 			for (TNode n : nodes) {
-				for (TConnection c : n.getConnections()) {
-					if(!printed.contains(c))
-						printed.add(c);
+				if (n.getTitle() != null && !n.getTitle().isEmpty()) {
+					String curr = n.getTitle() + "-";
+					Map<String, Integer> conns = n.getConnections();
+					for (String key : conns.keySet()) {
+						curr += conns.get(key) + "-" + key;
+						if (!toPrint.contains(reverseString(curr)))
+							toPrint.add(curr);
+					}
 				}
+
 			}
-			for(TConnection c : printed) {
-				sb.append(c + "\n");
-			}
-			ret = sb.toString();
+
+			for (String s : toPrint)
+				ret.append(s + "\n");
 		} else
-			ret = "Empty Tree";
-		return ret;
+			ret.append("Empty Tree");
+		return ret.toString();
 	}
 }

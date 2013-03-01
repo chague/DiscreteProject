@@ -1,7 +1,6 @@
 package lst;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 import mst.TConnection;
 import mst.TNode;
@@ -35,24 +34,49 @@ public class PrimSolution {
 		return buildSolution(solution);
 	}
 
-	private TTree buildSolution(TTree solution) {
-		if(this.tree.getNodes().size() > 0) {
-			
-			TConnection lowest = solution.getNodes().get(0).getConnections().get(0);
-			for(TNode n : solution.getNodes())
-				for(TConnection c : n.getConnections())
-					if(solution.hasNode(c.getTNodeOne()) && tree.hasNode(c.getTNodeTwo()) && c.getWeight() < lowest.getWeight())
-						lowest = c;
-			
-			solution.addNode(lowest.getTNodeTwo());
-			tree.removeNode(lowest.getTNodeTwo());
-			
-			return buildSolution(solution);
-			
-		}else 
-			return solution;
-		
+	// private TConnection findConnection(Map<String, Integer> input) {
+	// for(TNode n : tree.getNodes())
+	// if(n.getConnections().entrySet().contains(input))
+	// return n.getConnections().get(inpu)
+	// }
+
+	private TConnection getNextLowest(TTree solution) {
+		TConnection ret = null;
+		int lowest = Integer.MAX_VALUE;
+		for (TNode n : solution.getNodes()) {
+			Map<String, Integer> conns = n.getConnections();
+			String lowestKey = n.lowestPath();
+			if (!solution.hasNode(lowestKey) && conns.get(lowestKey) < lowest)
+				ret = new TConnection(n, lowestKey);
+		}
+		return ret;
 	}
-	
-	
+
+	private TNode removeFromTree(String name) {
+		TNode ret = null;
+		for (TNode n : tree.getNodes())
+			if (n.getTitle().equalsIgnoreCase(name)) {
+				ret = n;
+				tree.removeNode(ret);
+			}
+		return ret;
+	}
+
+	private TTree buildSolution(TTree solution) {
+		if (this.tree.getNodes().size() > 1) {
+
+			TConnection lowest = getNextLowest(solution);
+			if (lowest != null) {
+				String toRemove = lowest.getConnectionKey();
+				TNode toAdd = removeFromTree(toRemove);
+				solution.addNode(toAdd);
+			}
+
+			return buildSolution(solution);
+
+		} else
+			return solution;
+
+	}
+
 }
