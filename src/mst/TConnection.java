@@ -66,14 +66,6 @@ public class TConnection {
 		return ret;
 	}
 	
-	public boolean matchesNodes(List<TNode> input) {
-		boolean matches = true;
-		for(TNode in : input)
-			if(!this.getNodes().contains(in))
-				matches = false;
-		return matches;
-	}
-	
 	@Override 
 	public String toString() {
 		return TNodeOne + "-"+this.weight
@@ -85,7 +77,9 @@ public class TConnection {
 		boolean areEqual = true;
 		if(o.getClass().equals(this.getClass())) {
 			TConnection c = (TConnection)o;
-			if(!c.matchesNodes(this.getNodes()) || !(c.weight == this.weight))
+			if(!c.getTNodeOne().equals(this.getTNodeOne()) ||
+					!c.getTNodeTwo().equals(this.getTNodeTwo()) || 
+							c.getWeight() != this.weight)
 				areEqual = false;
 		}else 
 			areEqual = false;
