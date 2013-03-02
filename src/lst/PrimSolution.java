@@ -1,5 +1,8 @@
 package lst;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mst.TConnection;
 import mst.TNode;
 import mst.TTree;
@@ -19,17 +22,39 @@ public class PrimSolution {
 	public void setTree(TTree tree) {
 		this.tree = tree;
 	}
+	
+	
 
 	public TTree solveTree() {
-		TTree solution = new TTree();
+		
 
 		// Take a vertex (randomly)
 		TNode first = tree.getNodes().get(0);
-		solution.addNode(first);
+		List<TNode> solution = new ArrayList<TNode>();
+		solution.add(first);
 
-		// tree.removeNode(first);
+		while (solution.size() < tree.getNodes().size()) {
 
-		return buildSolution(solution);
+			TConnection lowest = new TConnection(null, null, Integer.MAX_VALUE);
+			
+			for (TNode n : solution) {
+				for (TConnection c : n.getConnections()) {
+					TNode temp = new TNode(c.getTNodeTwo());
+					
+					boolean solHasNode = solution.contains(temp);
+					boolean weightLower = c.getWeight() < lowest.getWeight();
+					if (!solHasNode && weightLower) {
+						lowest = c;
+						solution.add(TNode.copyNode(findNodeByName(lowest.getTNodeTwo())));
+					}
+				}
+			}
+
+		}
+		TTree solved = new TTree();
+		solved.addNodes(solution);
+		return solved;
+		
 	}
 
 	private TNode findNodeByName(String name) {
@@ -44,24 +69,6 @@ public class PrimSolution {
 		return ret;
 	}
 
-	private TTree buildSolution(TTree solution) {
-		if (solution.getNodes().size() != tree.getNodes().size()) {
 
-			TConnection lowest = new TConnection(null, null, Integer.MAX_VALUE);
-			for (TNode n : solution.getNodes())
-				for (TConnection c : n.getConnections())
-					if (!solution.hasNode(c.getTNodeOne())
-							&& tree.hasNode(c.getTNodeTwo())
-							&& c.getWeight() < lowest.getWeight())
-						lowest = c;
-
-			solution.addNode(findNodeByName(lowest.getTNodeTwo()));
-
-			return buildSolution(solution);
-
-		} else
-			return solution;
-
-	}
 
 }

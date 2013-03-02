@@ -24,8 +24,26 @@ public class TTree {
 	}
 
 	public void addNode(TNode toAdd) {
-		if (toAdd != null)
-			nodes.add(toAdd);
+		if (toAdd != null) {
+			List<String> titles = new ArrayList<String>();
+			TNode exists = null;
+			for(TNode n : nodes) {
+				titles.add(n.getTitle());
+				if(n.getTitle().equals(toAdd.getTitle())) {
+					exists = n;
+				}
+			}
+			
+			if(!titles.contains(toAdd.getTitle())) {
+				nodes.add(toAdd);
+			} else {
+				List<TConnection> connects = toAdd.getConnections();
+				for(TConnection con : connects) {
+					exists.addConnection(con);
+				}
+			}
+				
+		}
 	}
 	
 	public void removeNode(TNode toRemove) {

@@ -78,4 +78,10 @@ public class TConnection {
 			areEqual = false;
 		return areEqual;
 	}
+	
+	public static TConnection makeCopy(TConnection in) {
+		TConnection toRet = new TConnection();
+		
+		return toRet;
+	}
 }
