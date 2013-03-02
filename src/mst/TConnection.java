@@ -1,18 +1,17 @@
 package mst;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class TConnection {
 
 	private int weight;
-	private TNode TNodeOne, TNodeTwo;
+	private TNode TNodeOne;
+	private String TNodeTwoTitle;
 	
 	public TConnection() {}
 	
-	public TConnection(TNode one, TNode two, int weight) {
+	public TConnection(TNode one, String two, int weight) {
 		this.TNodeOne = one;
-		this.TNodeOne = two;
+		this.TNodeTwoTitle = two;
 		this.weight = weight;
 	}
 
@@ -32,44 +31,39 @@ public class TConnection {
 		TNodeOne = tNodeOne;
 	}
 
-	public TNode getTNodeTwo() {
-		return TNodeTwo;
+	public String getTNodeTwo() {
+		return TNodeTwoTitle;
 	}
 
-	public void setTNodeTwo(TNode tNodeTwo) {
-		TNodeTwo = tNodeTwo;
+	public void setTNodeTwo(String in) {
+		TNodeTwoTitle  = in;
 	}
 	
 	//returns node that does not call this method
-	public TNode notMe(TNode in) {
-		TNode ret = null;
+	public String notMe(TNode in) {
+		String ret = "";
 		if(TNodeOne.equals(in)) 
-			ret = TNodeTwo;
+			ret = TNodeTwoTitle;
 		else
-			ret = TNodeOne;
+			ret = TNodeOne.getTitle();
 		return ret;
 	}
 	
-	public List<TNode> getNodes() {
-		List<TNode> n = new ArrayList<TNode>();
-		n.add(TNodeOne);
-		n.add(TNodeTwo);
-		return n;
-	}
+//	public List<TNode> getNodes() {
+//		List<TNode> n = new ArrayList<TNode>();
+//		n.add(TNodeOne);
+//		n.add(TNodeTwo);
+//		return n;
+//	}
 	
 	public TNode isMe(TNode in) {
-		TNode ret = null;
-		if(TNodeOne.equals(in))
-			ret = TNodeOne;
-		else
-			ret = TNodeTwo;
-		return ret;
+		return TNodeOne;
 	}
 	
 	@Override 
 	public String toString() {
 		return TNodeOne + "-"+this.weight
-				+"-"+TNodeTwo;
+				+"-"+TNodeTwoTitle;
 	}
 	
 	@Override
@@ -77,10 +71,9 @@ public class TConnection {
 		boolean areEqual = true;
 		if(o.getClass().equals(this.getClass())) {
 			TConnection c = (TConnection)o;
-			if(!c.getTNodeOne().equals(this.getTNodeOne()) ||
-					!c.getTNodeTwo().equals(this.getTNodeTwo()) || 
-							c.getWeight() != this.weight)
-				areEqual = false;
+			areEqual = (c.getTNodeOne().equals(this.getTNodeOne()) &&
+					c.getTNodeTwo().equals(this.getTNodeTwo()) &&
+							c.getWeight() == this.weight);
 		}else 
 			areEqual = false;
 		return areEqual;

@@ -1,8 +1,6 @@
 package tio;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.util.List;
 import java.util.Scanner;
 
 import mst.TConnection;
@@ -23,58 +21,58 @@ public class TreeInput {
 		String input = "";
 		while (!input.equalsIgnoreCase("stop")) {
 			input = scan.nextLine();
-			TConnection connect = ConnectionInput
+			List<TConnection> connect = ConnectionInput
 					.getConnectionFromString(input);
-			if (connect != null) {
-				tree.addNodes(connect.getNodes());
-			} else if(!input.equalsIgnoreCase("stop"))
-				System.out.println("Please enter a valid connection");
+
+			for (TConnection c : connect) {
+				tree.addNode(c.getTNodeOne());
+			}
 
 		}
 
 		return tree;
 	}
 
-	public static TTree getTreeFromFile() {
-		TTree tree = new TTree();
-		Scanner scan = new Scanner(System.in);
-		boolean done = false;
-		File inFile = null;
-		while (!done) {
-			System.out
-					.println("Please input a full file path for a .txt file\nex: c:/myFolder/myFile.txt");
-			String input = scan.nextLine();
-
-			try {
-				inFile = new File(input);
-				done = true;
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-		}
-
-		try {
-			FileReader fr = new FileReader(inFile);
-			scan = new Scanner(fr);
-			String input = "";
-			while (scan.hasNext()) {
-				input = scan.nextLine();
-				System.out.println("Tried Input: "+input);
-				TConnection connect = ConnectionInput
-						.getConnectionFromString(input);
-				if (connect != null) {
-					tree.addNodes(connect.getNodes());
-				} else
-					System.out
-							.println("Error in Connection format, please verify every connection is on its own line in this format:\n"
-									+ "a-2-b");
-
-			}
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return tree;
-	}
+//	public static TTree getTreeFromFile() {
+//		TTree tree = new TTree();
+//		Scanner scan = new Scanner(System.in);
+//		boolean done = false;
+//		File inFile = null;
+//		while (!done) {
+//			System.out
+//					.println("Please input a full file path for a .txt file\nex: c:/myFolder/myFile.txt");
+//			String input = scan.nextLine();
+//
+//			try {
+//				inFile = new File(input);
+//				done = true;
+//			} catch (Exception e) {
+//				System.out.println(e.getMessage());
+//			}
+//		}
+//
+//		try {
+//			FileReader fr = new FileReader(inFile);
+//			scan = new Scanner(fr);
+//			String input = "";
+//			while (scan.hasNext()) {
+//				input = scan.nextLine();
+//				System.out.println("Tried Input: " + input);
+//				TConnection connect = ConnectionInput
+//						.getConnectionFromString(input);
+//				if (connect != null) {
+//					tree.addNodes(connect.getNodes());
+//				} else
+//					System.out
+//							.println("Error in Connection format, please verify every connection is on its own line in this format:\n"
+//									+ "a-2-b");
+//
+//			}
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return tree;
+//	}
 
 }

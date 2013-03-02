@@ -42,6 +42,17 @@ public class TTree {
 					nodes.add(n);
 		}
 	}
+	
+	public boolean hasNode(String in) {
+		boolean hasNode = false;
+		for(TNode node : this.nodes) {
+			if(node.getTitle().equalsIgnoreCase(in)) {
+				hasNode = true;
+				break;
+			}
+		}
+		return hasNode;
+	}
 
 	public boolean hasNode(TNode in) {
 		boolean hasNode = false;

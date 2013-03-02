@@ -1,8 +1,5 @@
 package lst;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mst.TConnection;
 import mst.TNode;
 import mst.TTree;
@@ -30,29 +27,41 @@ public class PrimSolution {
 		TNode first = tree.getNodes().get(0);
 		solution.addNode(first);
 
-		tree.removeNode(first);
+		// tree.removeNode(first);
 
 		return buildSolution(solution);
 	}
 
-	private TTree buildSolution(TTree solution) {
-		if(this.tree.getNodes().size() > 0) {
-			
-			TConnection lowest = new TConnection(null, null, Integer.MAX_VALUE);
-			for(TNode n : solution.getNodes())
-				for(TConnection c : n.getConnections())
-					if(solution.hasNode(c.getTNodeOne()) && tree.hasNode(c.getTNodeTwo()) && c.getWeight() < lowest.getWeight())
-						lowest = c;
-			
-			solution.addNode(lowest.getTNodeTwo());
-			tree.removeNode(lowest.getTNodeTwo());
-			
-			return buildSolution(solution);
-			
-		}else 
-			return solution;
-		
+	private TNode findNodeByName(String name) {
+		TNode ret = null;
+		for (TNode n : tree.getNodes()) {
+			if (n.getTitle().equalsIgnoreCase(name)) {
+				ret = n;
+				break;
+			}
+		}
+
+		return ret;
 	}
-	
-	
+
+	private TTree buildSolution(TTree solution) {
+		if (solution.getNodes().size() != tree.getNodes().size()) {
+
+			TConnection lowest = new TConnection(null, null, Integer.MAX_VALUE);
+			for (TNode n : solution.getNodes())
+				for (TConnection c : n.getConnections())
+					if (!solution.hasNode(c.getTNodeOne())
+							&& tree.hasNode(c.getTNodeTwo())
+							&& c.getWeight() < lowest.getWeight())
+						lowest = c;
+
+			solution.addNode(findNodeByName(lowest.getTNodeTwo()));
+
+			return buildSolution(solution);
+
+		} else
+			return solution;
+
+	}
+
 }
